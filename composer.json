@@ -1,0 +1,31 @@
+{
+    "name": "glengemann/php-mellow-api",
+    "description": "Mellow API client",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "MellowApi\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Guillermo Lengemann Garcés",
+            "email": "guillermo.lengemann@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require-dev": {
+        "phpunit/phpunit": "^12.5",
+        "friendsofphp/php-cs-fixer": "^3.95"
+    },
+    "require": {
+        "php-http/client-common": "^2.7",
+        "php-http/discovery": "^1.20",
+        "symfony/serializer": "^7.4"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    }
+}
