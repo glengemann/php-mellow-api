@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Mellow\Api\Freelancers\Parameter;
+namespace Mellow\Api\Freelancer\Parameter;
 
 class InviteParameters
 {
@@ -25,21 +25,21 @@ class InviteParameters
      *     note?: string,
      *     inEnglish?: bool,
      *     sendEmail?: bool,
-     * } $options
+     * } $parameters
      */
     public function __construct(
-        private array $options = [],
+        private array $parameters = [],
     ) {
     }
 
     public function toArray(): array
     {
-        return $this->options;
+        return $this->parameters;
     }
 
     public function email(string $email): static
     {
-        $this->options['email'] = $email;
+        $this->parameters['email'] = $email;
 
         return $this;
     }
@@ -50,84 +50,84 @@ class InviteParameters
             throw new \InvalidArgumentException('The "phone" option must contain digits only.');
         }
 
-        $this->options['phone'] = $phone;
+        $this->parameters['phone'] = $phone;
 
         return $this;
     }
 
     public function firstName(?string $firstName): static
     {
-        $this->options['firstName'] = $firstName;
+        $this->parameters['firstName'] = $firstName;
 
         return $this;
     }
 
     public function lastName(?string $lastName): static
     {
-        $this->options['lastName'] = $lastName;
+        $this->parameters['lastName'] = $lastName;
 
         return $this;
     }
 
     public function middleName(?string $middleName): static
     {
-        $this->options['middleName'] = $middleName;
+        $this->parameters['middleName'] = $middleName;
 
         return $this;
     }
 
     public function citizenship(?string $citizenship): static
     {
-        $this->options['citizenship'] = $citizenship;
+        $this->parameters['citizenship'] = $citizenship;
 
         return $this;
     }
 
     public function address(?string $address): static
     {
-        $this->options['address'] = $address;
+        $this->parameters['address'] = $address;
 
         return $this;
     }
 
     public function postalCode(?string $postalCode): static
     {
-        $this->options['postalCode'] = $postalCode;
+        $this->parameters['postalCode'] = $postalCode;
 
         return $this;
     }
 
     public function city(?string $city): static
     {
-        $this->options['city'] = $city;
+        $this->parameters['city'] = $city;
 
         return $this;
     }
 
     public function state(?string $state): static
     {
-        $this->options['state'] = $state;
+        $this->parameters['state'] = $state;
 
         return $this;
     }
 
     public function country(?string $country): static
     {
-        $this->options['country'] = $country;
+        $this->parameters['country'] = $country;
 
         return $this;
     }
 
     public function birthdate(?string $birthdate): static
     {
-        $this->options['birthdate'] = $birthdate;
+        $this->parameters['birthdate'] = $birthdate;
 
         return $this;
     }
 
     public function birthCountry(?string $birthCountry): static
     {
-        $this->options['birthCountry'] = $birthCountry;
+        $this->parameters['birthCountry'] = $birthCountry;
 
         return $this;
     }
@@ -138,28 +138,28 @@ class InviteParameters
             throw new \InvalidArgumentException('The "specialization" option must be a positive integer.');
         }
 
-        $this->options['specialization'] = $specialization;
+        $this->parameters['specialization'] = $specialization;
 
         return $this;
     }
 
     public function note(?string $note): static
     {
-        $this->options['note'] = $note;
+        $this->parameters['note'] = $note;
 
         return $this;
     }
 
     public function inEnglish(?bool $inEnglish): static
     {
-        $this->options['inEnglish'] = $inEnglish;
+        $this->parameters['inEnglish'] = $inEnglish;
 
         return $this;
     }
 
     public function sendEmail(?bool $sendEmail): static
     {
-        $this->options['sendEmail'] = $sendEmail;
+        $this->parameters['sendEmail'] = $sendEmail;
 
         return $this;
     }

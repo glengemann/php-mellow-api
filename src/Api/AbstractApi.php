@@ -16,6 +16,14 @@ class AbstractApi
     ) {
     }
 
+    protected function get(string $url, array $headers = []): ResponseInterface
+    {
+        return $this->client->getHttpClient()->get(
+            $url,
+            $headers
+        );
+    }
+
     protected function post(string $url, array $parameters = [], array $headers = []): ResponseInterface
     {
         return $this->client->getHttpClient()->post(

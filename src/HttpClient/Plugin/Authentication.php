@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace Mellow\HttpClient\Plugin;
+
 use Http\Client\Common\Plugin;
 use Http\Promise\Promise;
 use Psr\Http\Message\RequestInterface;

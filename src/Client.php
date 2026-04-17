@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Mellow;
 
 use Http\Client\Common\HttpMethodsClientInterface;
-use Mellow\Api\Freelancers\Freelancers;
+use Mellow\Api\Freelancer\Freelancer;
 use Mellow\HttpClient\Builder;
+use Mellow\HttpClient\Plugin\Authentication;
 use Psr\Http\Client\ClientInterface;
 
 class Client
@@ -29,14 +30,14 @@ class Client
     public function api(string $name)
     {
         return match ($name) {
-            'freelancers' => new Freelancers($this),
+            'freelancers' => new Freelancer($this),
             default => throw new \InvalidArgumentException("Invalid API name: $name"),
         };
     }
 
     public function authenticate(string $apiKey): void
     {
-        $authentication = new \Authentication($apiKey);
+        $authentication = new Authentication($apiKey);
         $this->httpClientBuilder->addPlugin($authentication);
     }
 
