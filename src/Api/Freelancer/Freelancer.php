@@ -42,10 +42,15 @@ class Freelancer extends AbstractApi
         return array_map(fn ($item) => new FreelancerListResponse(...$item), $response['items'] ?? []);
     }
 
+    /**
+     * @see https://my.mellow.io/api/docs/#removing-freelancers-from-team
+     */
     public function remove(RemoveParameters $parameters)
     {
         $url = sprintf('customer/freelancers');
 
-        $this->delete($url);
+        $response = $this->delete($url, $parameters->toArray());
+
+        return $response;
     }
 }
