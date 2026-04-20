@@ -26,10 +26,17 @@ class AbstractApi
 
     protected function post(string $url, array $parameters = [], array $headers = []): ResponseInterface
     {
+        $parameters = $this->createJsonBody($parameters);
+
         return $this->client->getHttpClient()->post(
             $url,
+            $headers,
             $parameters,
-            $headers
         );
+    }
+
+    protected function createJsonBody(array $parameters): ?string
+    {
+        return (0 === count($parameters)) ? null : json_encode($parameters, empty($parameters) ? JSON_FORCE_OBJECT : 0);
     }
 }
