@@ -24,14 +24,25 @@ class AbstractApi
         );
     }
 
-    protected function post(string $url, array $parameters = [], array $headers = []): ResponseInterface
+    protected function post(string $url, array $body = [], array $headers = []): ResponseInterface
     {
-        $parameters = $this->createJsonBody($parameters);
+        $body = $this->createJsonBody($body);
 
         return $this->client->getHttpClient()->post(
             $url,
             $headers,
-            $parameters,
+            $body,
+        );
+    }
+
+    protected function delete(string $url, array $parameters = [], array $headers = []): ResponseInterface
+    {
+        $body = $this->createJsonBody($parameters);
+
+        return $this->client->getHttpClient()->delete(
+            $url,
+            $headers,
+            $body,
         );
     }
 

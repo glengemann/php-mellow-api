@@ -29,11 +29,16 @@ class ResponseConverter
         $this->serializer = $serializer ?? new Serializer($normalizers);
     }
 
+    /**
+     * @return array|object
+     */
     public function convert(
         ResponseInterface $response,
         string $type,
-    ): array {
+    ) {
+        $statusCode = $response->getStatusCode();
         $content = $response->getBody()->getContents();
+
         /**
          * @var array{
          *     items: array<string, mixed>,
@@ -41,7 +46,14 @@ class ResponseConverter
          */
         $response = json_decode($content, true);
 
-        $response = $response['items'];
+        if (200 !== $statusCode) {
+            throw new \RuntimeException($response['message'] ?? 'Unknown error');
+        }
+
+        // 422
+        // "{"email":"Contractor already in team"}"
+
+        $response = $response['items'] ?? $response;
 
         return $this->serializer->normalize($response, $type);
     }
