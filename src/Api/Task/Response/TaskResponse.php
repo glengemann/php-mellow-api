@@ -6,7 +6,7 @@ namespace Mellow\Api\Task\Response;
 
 use Mellow\Api\Currency;
 
-class Task
+class TaskResponse
 {
     public function __construct(
         //       "currency": {

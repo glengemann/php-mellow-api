@@ -5,27 +5,32 @@ declare(strict_types=1);
 namespace Mellow\Api\Task;
 
 use Mellow\Api\AbstractApi;
+use Mellow\Api\Task\Parameter\CreateParameters;
+use Mellow\Api\Task\Parameter\FilterParameters;
+use Mellow\Api\Task\Response\TaskResponse;
 
 class Task extends AbstractApi
 {
-    // curl -X GET "https://my.mellow.io/api/customer/tasks?filter[creatorId]=123"
-    public function list()
+    /**
+     * @see https://my.mellow.io/api/docs/#retrieving-task-list
+     */
+    public function list(FilterParameters $parameters)
     {
         $url = sprintf('customer/tasks');
 
+        if (0 !== count($parameters->toArray())) {
+            $url .= '?' . http_build_query($parameters->toArray());
+        }
+
         $response = $this->get($url);
 
-        return $this->responseConverter->convert($response, TaskCollection::class);
+        return $this->responseConverter->convert($response, TaskResponse::class . '[]');
     }
 
-    // curl -X GET "https://my.mellow.io/api/customer/tasks/c6e8e285-1e0a-4a11-a676-89211c0adccc"
-    public function get(string $id)
-    {
-        $url = sprintf('customer/tasks/%s', $id);
-    }
-
-    // curl -X POST "https://my.mellow.io/api/customer/tasks"
-    public function create()
+    /**
+     * @see https://my.mellow.io/api/docs/#creating-a-task
+     */
+    public function create(CreateParameters $parameters)
     {
         $url = 'customer/tasks';
     }

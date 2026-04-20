@@ -33,8 +33,15 @@ class ResponseConverter
         ResponseInterface $response,
         string $type,
     ): array {
-        $response = $response->getBody()->getContents();
-        $response = json_decode($response, true);
+        $content = $response->getBody()->getContents();
+        /**
+         * @var array{
+         *     items: array<string, mixed>,
+         * } $response
+         */
+        $response = json_decode($content, true);
+
+        $response = $response['items'];
 
         return $this->serializer->normalize($response, $type);
     }
