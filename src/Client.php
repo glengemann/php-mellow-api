@@ -8,6 +8,7 @@ use Http\Client\Common\HttpMethodsClientInterface;
 use Mellow\Api\Freelancer\Freelancer;
 use Mellow\Api\Lookup\Lookup;
 use Mellow\Api\Task\Task;
+use Mellow\Api\Webhook\Webhook;
 use Mellow\HttpClient\Builder;
 use Mellow\HttpClient\Plugin\Authentication;
 use Psr\Http\Client\ClientInterface;
@@ -29,15 +30,6 @@ class Client
         return new self($builder);
     }
 
-    public function api(string $name)
-    {
-        return match ($name) {
-            'freelancers' => new Freelancer($this),
-            'tasks' => new Task($this),
-            default => throw new \InvalidArgumentException("Invalid API name: $name"),
-        };
-    }
-
     public function task(): Task
     {
         return new Task($this);
@@ -51,6 +43,11 @@ class Client
     public function lookup(): Lookup
     {
         return new Lookup($this);
+    }
+
+    public function weebhook(): Webhook
+    {
+        return new Webhook($this);
     }
 
     public function authenticate(string $apiKey): void

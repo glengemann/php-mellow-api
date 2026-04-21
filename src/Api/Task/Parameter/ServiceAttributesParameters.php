@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Mellow\Api\Task\Parameter;
 
-class ServiceAttributesParameters
+class ServiceAttributesParameters implements \JsonSerializable
 {
     public function __construct(
         private array $parameters = [],
@@ -28,5 +28,10 @@ class ServiceAttributesParameters
         $this->parameters['value'] = $value;
 
         return $this;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return $this->parameters;
     }
 }

@@ -33,5 +33,9 @@ class Task extends AbstractApi
     public function create(CreateParameters $parameters)
     {
         $url = 'customer/tasks';
+
+        $response = $this->post($url, $parameters->toArray());
+
+        return $this->responseConverter->convert($response, TaskResponse::class);
     }
 }
