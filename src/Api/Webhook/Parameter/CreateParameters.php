@@ -7,7 +7,7 @@ namespace Mellow\Api\Webhook\Parameter;
 class CreateParameters
 {
     public function __construct(
-        private array $parameters,
+        private array $parameters = [],
     ) {
     }
 

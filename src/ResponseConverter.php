@@ -47,7 +47,7 @@ class ResponseConverter
         $response = json_decode($content, true);
 
         if (200 !== $statusCode) {
-            throw new \RuntimeException($response['message'] ?? 'Unknown error');
+            throw new \RuntimeException($response['message'] ?? 'Server returned an error: '.$statusCode);
         }
 
         // 422
