@@ -37,11 +37,11 @@ class Webhook extends AbstractApi
     /**
      * @see https://my.mellow.io/api/docs/#delete-webhook
      */
-    public function remove(array $parameters)
+    public function remove()
     {
         $url = 'customer/web-hook';
 
-        $response = $this->delete($url, $parameters);
+        $response = $this->delete($url);
 
         return $this->responseConverter->convert($response, \stdClass::class);
     }
