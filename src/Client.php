@@ -17,14 +17,15 @@ class Client
 {
     private Builder $httpClientBuilder;
 
-    public function __construct(
+    private function __construct(
         ?Builder $httpClientBuilder = null,
     ) {
         $this->httpClientBuilder = $httpClientBuilder ?? new Builder();
     }
 
-    public static function createWithHttpClient(ClientInterface $httpClient): self
-    {
+    public static function createWithHttpClient(
+        ClientInterface $httpClient,
+    ): self {
         $builder = new Builder($httpClient);
 
         return new self($builder);
@@ -45,7 +46,7 @@ class Client
         return new Lookup($this);
     }
 
-    public function weebhook(): Webhook
+    public function webhook(): Webhook
     {
         return new Webhook($this);
     }
