@@ -10,9 +10,10 @@ use Mellow\Api\Lookup\Response\ServiceResponse;
 
 class Lookup extends AbstractApi
 {
+    /** @return ServiceResponse[] */
     public function services(): array
     {
-        $url = 'customer/lookup/services';
+        $url = 'customer/lookups/services';
 
         $response = $this->get($url);
 
@@ -21,7 +22,7 @@ class Lookup extends AbstractApi
 
     public function serviceAttributes(): array
     {
-        $url = 'customer/lookup/service-attributes';
+        $url = 'customer/lookups/service-attributes';
 
         $response = $this->get($url);
 

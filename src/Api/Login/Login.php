@@ -14,7 +14,7 @@ class Login extends AbstractApi
         string $password,
         int $code = 0,
     ) {
-        $url = 'customer/login';
+        $url = 'login';
 
         $response = $this->post($url, [
             'username' => $user,
@@ -27,7 +27,7 @@ class Login extends AbstractApi
 
     public function refresh(string $refreshToken)
     {
-        $url = 'customer/refresh';
+        $url = 'refresh';
 
         $response = $this->post($url, [
             'refreshToken' => $refreshToken,

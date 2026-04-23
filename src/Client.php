@@ -6,6 +6,7 @@ namespace Mellow;
 
 use Http\Client\Common\HttpMethodsClientInterface;
 use Mellow\Api\Freelancer\Freelancer;
+use Mellow\Api\Login\Login;
 use Mellow\Api\Lookup\Lookup;
 use Mellow\Api\Task\Task;
 use Mellow\Api\Webhook\Webhook;
@@ -29,6 +30,11 @@ class Client
         $builder = new Builder($httpClient);
 
         return new self($builder);
+    }
+
+    public function login(): Login
+    {
+        return new Login($this);
     }
 
     public function task(): Task
