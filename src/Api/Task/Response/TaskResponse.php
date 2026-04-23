@@ -9,11 +9,9 @@ use Mellow\Api\Currency;
 class TaskResponse
 {
     public function __construct(
-        //       "currency": {
-        //        "currency": "EUR",
-        //        "id": 3
-        //      },
-        public readonly Currency $currency,
+        /** array{currency: Currency, id: int} */
+        public readonly array $currency,
+        public readonly int $state,
     ) {
     }
 }

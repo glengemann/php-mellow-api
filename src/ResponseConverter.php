@@ -55,6 +55,6 @@ class ResponseConverter
 
         $response = $response['items'] ?? $response;
 
-        return $this->serializer->normalize($response, $type);
+        return $this->serializer->denormalize($response, $type);
     }
 }

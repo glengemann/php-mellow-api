@@ -38,4 +38,16 @@ class Task extends AbstractApi
 
         return $this->responseConverter->convert($response, TaskResponse::class);
     }
+
+    /**
+     * @see https://my.mellow.io/api/docs/#retrieving-tasks-using-their-ids
+     */
+    public function retrieve(string|int $taskId): object|array
+    {
+        $url = sprintf('customer/tasks/%s', $taskId);
+
+        $response = $this->get($url);
+
+        return $this->responseConverter->convert($response, TaskResponse::class);
+    }
 }
