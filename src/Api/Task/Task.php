@@ -5,8 +5,13 @@ declare(strict_types=1);
 namespace Mellow\Api\Task;
 
 use Mellow\Api\AbstractApi;
+use Mellow\Api\Task\Parameter\AcceptTaskParameters;
 use Mellow\Api\Task\Parameter\CreateParameters;
+use Mellow\Api\Task\Parameter\DeclineTaskParameters;
 use Mellow\Api\Task\Parameter\FilterParameters;
+use Mellow\Api\Task\Parameter\PayTaskParameters;
+use Mellow\Api\Task\Response\DeclineTaskResponse;
+use Mellow\Api\Task\Response\PayTaskResponse;
 use Mellow\Api\Task\Response\TaskResponse;
 
 class Task extends AbstractApi
@@ -49,5 +54,41 @@ class Task extends AbstractApi
         $response = $this->get($url);
 
         return $this->responseConverter->convert($response, TaskResponse::class);
+    }
+
+    /**
+     * @see https://my.mellow.io/api/docs/#accepting-task
+     */
+    public function accept(AcceptTaskParameters $parameters)
+    {
+        $url = 'customer/tasks/accept';
+
+        $response = $this->post($url, $parameters->toArray());
+
+        return $this->responseConverter->convert($response, TaskResponse::class);
+    }
+
+    /**
+     * @see https://my.mellow.io/api/docs/#declining-rejecting-task
+     */
+    public function decline(DeclineTaskParameters $parameters)
+    {
+        $url = 'customer/tasks/decline';
+
+        $response = $this->post($url, $parameters->toArray());
+
+        return $this->responseConverter->convert($response, DeclineTaskResponse::class);
+    }
+
+    /**
+     * @see https://my.mellow.io/api/docs/#pay-for-task
+     */
+    public function pay(PayTaskParameters $parameters)
+    {
+        $url = 'customer/tasks/pay';
+
+        $response = $this->post($url, $parameters->toArray());
+
+        return $this->responseConverter->convert($response, PayTaskResponse::class);
     }
 }

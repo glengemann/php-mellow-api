@@ -36,25 +36,30 @@ class ResponseConverter
         ResponseInterface $response,
         string $type,
     ) {
-        $statusCode = $response->getStatusCode();
-        $content = $response->getBody()->getContents();
+        $raw = $response->getBody()->getContents();
 
         /**
          * @var array{
          *     items: array<string, mixed>,
-         * } $response
+         *     email?: string,
+         *     taskId?: string,
+         *     error?: string,
+         * } $payload
          */
-        $response = json_decode($content, true);
+        $payload = '' !== $raw
+            ? json_decode($raw, true, 512, JSON_THROW_ON_ERROR)
+            : [];
 
-        if (200 !== $statusCode) {
-            throw new \RuntimeException($response['message'] ?? 'Server returned an error: '.$statusCode);
+        $statusCode = $response->getStatusCode();
+        if (200 < $statusCode || $statusCode >= 300) {
+            $error = $payload['email'] ?? $payload['taskId'] ?? $payload['error'] ?? 'Unknown error';
+
+            $message = sprintf('[%d] %s', $statusCode, $error);
+            throw new \RuntimeException($message);
         }
 
-        // 422
-        // "{"email":"Contractor already in team"}"
+        $payload = $payload['items'] ?? $payload;
 
-        $response = $response['items'] ?? $response;
-
-        return $this->serializer->denormalize($response, $type);
+        return $this->serializer->denormalize($payload, $type);
     }
 }
