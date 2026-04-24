@@ -13,7 +13,10 @@ class FileTokenStorage implements TokenStoreInterface
     public function __construct()
     {
         if (true === file_exists(self::TMP_MELLOW_TOKEN_JSON)) {
-            $this->data = json_decode(file_get_contents(self::TMP_MELLOW_TOKEN_JSON), true);
+            $this->data = json_decode(
+                file_get_contents(self::TMP_MELLOW_TOKEN_JSON),
+                true,
+            );
         }
     }
 
@@ -29,6 +32,15 @@ class FileTokenStorage implements TokenStoreInterface
 
     public function save(string $token, string $refreshToken): void
     {
-        file_put_contents(self::TMP_MELLOW_TOKEN_JSON, json_encode($token), LOCK_EX);
+        $this->data = [
+            'access_token' => $token,
+            'refresh_token' => $refreshToken,
+        ];
+
+        file_put_contents(
+            self::TMP_MELLOW_TOKEN_JSON,
+            json_encode($this->data, JSON_THROW_ON_ERROR),
+            LOCK_EX,
+        );
     }
 }
