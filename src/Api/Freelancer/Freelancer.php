@@ -7,9 +7,10 @@ namespace Mellow\Api\Freelancer;
 use Mellow\Api\AbstractApi;
 use Mellow\Api\Freelancer\Parameter\FreelancerListParameters;
 use Mellow\Api\Freelancer\Parameter\InviteParameters;
+use Mellow\Api\Freelancer\Parameter\RemoveParameters;
 use Mellow\Api\Freelancer\Response\FreelancerListResponse;
 use Mellow\Api\Freelancer\Response\InviteResponse;
-use Mellow\Api\Freelancer\Parameter\RemoveParameters;
+use Mellow\Api\Freelancer\Response\RemoveResponse;
 
 class Freelancer extends AbstractApi
 {
@@ -48,10 +49,12 @@ class Freelancer extends AbstractApi
     /**
      * @see https://my.mellow.io/api/docs/#removing-freelancers-from-team
      */
-    public function remove(RemoveParameters $parameters): void
+    public function remove(RemoveParameters $parameters)
     {
         $url = sprintf('customer/freelancers');
 
-        $this->delete($url, $parameters->toArray());
+        $response = $this->delete($url, $parameters->toArray());
+
+        return $this->responseConverter->convert($response, RemoveResponse::class);
     }
 }
