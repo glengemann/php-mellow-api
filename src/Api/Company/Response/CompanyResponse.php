@@ -15,6 +15,8 @@ final readonly class CompanyResponse
         public bool $isDefault,
         public int $statusId,
         public string $country,
+        /** array{currency: string, id: int} */
+        public array $currency,
     ) {
     }
 }

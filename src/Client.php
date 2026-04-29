@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Mellow;
 
 use Http\Client\Common\HttpMethodsClientInterface;
+use Mellow\Api\Company\Company;
 use Mellow\Api\Freelancer\Freelancer;
 use Mellow\Api\Login\Login;
 use Mellow\Api\Lookup\Lookup;
@@ -35,6 +36,11 @@ class Client
     public function login(): Login
     {
         return new Login($this);
+    }
+
+    public function company(): Company
+    {
+        return new Company($this);
     }
 
     public function task(): Task
