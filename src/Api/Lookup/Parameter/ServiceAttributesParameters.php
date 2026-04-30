@@ -7,11 +7,11 @@ namespace Mellow\Api\Lookup\Parameter;
 class ServiceAttributesParameters
 {
     public function __construct(
-        private array $parameters,
+        private array $parameters = [],
     ) {
     }
 
-    private function toArray(): array
+    public function toArray(): array
     {
         return $this->parameters;
     }
