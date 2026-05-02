@@ -11,4 +11,6 @@ interface TokenStoreInterface
     public function getRefreshToken(): ?string;
 
     public function save(string $token, string $refreshToken): void;
+
+    public function delete(): void;
 }

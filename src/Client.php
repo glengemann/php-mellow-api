@@ -14,6 +14,7 @@ use Mellow\Api\Webhook\Webhook;
 use Mellow\HttpClient\Builder;
 use Mellow\HttpClient\Plugin\AuthenticationPlugin;
 use Mellow\HttpClient\Plugin\CompanyPlugin;
+use Mellow\HttpClient\Plugin\RetryAuthenticationPlugin;
 use Psr\Http\Client\ClientInterface;
 
 class Client
@@ -74,6 +75,11 @@ class Client
     {
         $company = new CompanyPlugin($companyId);
         $this->httpClientBuilder->addPlugin($company);
+    }
+
+    public function withRetryAuthentication(RetryAuthenticationPlugin $plugin): void
+    {
+        $this->httpClientBuilder->addPlugin($plugin);
     }
 
     public function getHttpClient(): HttpMethodsClientInterface

@@ -67,4 +67,9 @@ class Psr6TokenStore implements TokenStoreInterface
 
         return $credentials;
     }
+
+    public function delete(): void
+    {
+        $this->cachePool->deleteItem($this->storageKey);
+    }
 }

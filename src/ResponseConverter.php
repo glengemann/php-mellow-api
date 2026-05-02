@@ -36,6 +36,19 @@ class ResponseConverter
         ResponseInterface $response,
         string $type,
     ) {
+        $statusCode = $response->getStatusCode();
+        if (200 < $statusCode || $statusCode >= 300) {
+            $error = $payload['email']
+                ?? $payload['taskId']
+                ?? $payload['error']
+                ?? $payload['message']
+                ?? $payload['uuid']
+                ?? 'Unknown error';
+
+            $message = sprintf('[%d] %s', $statusCode, $error);
+            throw new \RuntimeException($message);
+        }
+
         $raw = $response->getBody()->getContents();
 
         /**
@@ -51,19 +64,6 @@ class ResponseConverter
         $payload = '' !== $raw
             ? json_decode($raw, true, 512, JSON_THROW_ON_ERROR)
             : [];
-
-        $statusCode = $response->getStatusCode();
-        if (200 < $statusCode || $statusCode >= 300) {
-            $error = $payload['email']
-                ?? $payload['taskId']
-                ?? $payload['error']
-                ?? $payload['message']
-                ?? $payload['uuid']
-                ?? 'Unknown error';
-
-            $message = sprintf('[%d] %s', $statusCode, $error);
-            throw new \RuntimeException($message);
-        }
 
         $payload = $payload['items'] ?? $payload;
 

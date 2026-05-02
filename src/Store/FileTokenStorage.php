@@ -43,4 +43,11 @@ class FileTokenStorage implements TokenStoreInterface
             LOCK_EX,
         );
     }
+
+    public function delete(): void
+    {
+        if (true === file_exists(self::TMP_MELLOW_TOKEN_JSON)) {
+            unlink(self::TMP_MELLOW_TOKEN_JSON);
+        }
+    }
 }
