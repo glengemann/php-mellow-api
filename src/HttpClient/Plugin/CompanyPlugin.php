@@ -8,10 +8,10 @@ use Http\Client\Common\Plugin;
 use Http\Promise\Promise;
 use Psr\Http\Message\RequestInterface;
 
-class Authentication implements Plugin
+class CompanyPlugin implements Plugin
 {
     public function __construct(
-        private readonly string $apiKey,
+        private readonly int $companyId,
     ) {
     }
 
@@ -20,8 +20,7 @@ class Authentication implements Plugin
         callable $next,
         callable $first,
     ): Promise {
-        $value = sprintf('Bearer %s', $this->apiKey);
-        $request = $request->withHeader('Authorization', $value);
+        $request = $request->withHeader('x-company-id', $this->companyId);
 
         return $next($request);
     }

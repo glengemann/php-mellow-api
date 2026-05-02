@@ -12,7 +12,8 @@ use Mellow\Api\Lookup\Lookup;
 use Mellow\Api\Task\Task;
 use Mellow\Api\Webhook\Webhook;
 use Mellow\HttpClient\Builder;
-use Mellow\HttpClient\Plugin\Authentication;
+use Mellow\HttpClient\Plugin\AuthenticationPlugin;
+use Mellow\HttpClient\Plugin\CompanyPlugin;
 use Psr\Http\Client\ClientInterface;
 
 class Client
@@ -65,8 +66,14 @@ class Client
 
     public function authenticate(string $apiKey): void
     {
-        $authentication = new Authentication($apiKey);
+        $authentication = new AuthenticationPlugin($apiKey);
         $this->httpClientBuilder->addPlugin($authentication);
+    }
+
+    public function setCompany(int $companyId): void
+    {
+        $company = new CompanyPlugin($companyId);
+        $this->httpClientBuilder->addPlugin($company);
     }
 
     public function getHttpClient(): HttpMethodsClientInterface

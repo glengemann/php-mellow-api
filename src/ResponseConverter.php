@@ -45,6 +45,7 @@ class ResponseConverter
          *     taskId?: string,
          *     error?: string,
          *     message?: string,
+         *     uuid?: string,
          * } $payload
          */
         $payload = '' !== $raw
@@ -54,7 +55,11 @@ class ResponseConverter
         $statusCode = $response->getStatusCode();
         if (200 < $statusCode || $statusCode >= 300) {
             $error = $payload['email']
-                ?? $payload['taskId'] ?? $payload['error'] ?? $payload['message'] ?? 'Unknown error';
+                ?? $payload['taskId']
+                ?? $payload['error']
+                ?? $payload['message']
+                ?? $payload['uuid']
+                ?? 'Unknown error';
 
             $message = sprintf('[%d] %s', $statusCode, $error);
             throw new \RuntimeException($message);
