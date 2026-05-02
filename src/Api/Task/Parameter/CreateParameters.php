@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace Mellow\Api\Task\Parameter;
 
-use DateTimeInterface;
-
 class CreateParameters
 {
     /**
      * @param array{
+     *     uuid: string,
      *     categoryId: int,
      *     attributes: array{
      *         id: int,
@@ -29,6 +28,7 @@ class CreateParameters
 
     /**
      * @return array{
+     *     uuid: string,
      *     categoryId: int,
      *     attributes: array{
      *         id: int,
@@ -44,6 +44,13 @@ class CreateParameters
     public function toArray(): array
     {
         return $this->parameters;
+    }
+
+    public function uuid(string $uuid): static
+    {
+        $this->parameters['uuid'] = $uuid;
+
+        return $this;
     }
 
     public function categoryId(int $categoryId): static
@@ -101,7 +108,7 @@ class CreateParameters
     public function deadline(\DateTimeInterface $deadline): static
     {
         $this->parameters['deadline'] = $deadline
-            ->format(DateTimeInterface::ATOM);
+            ->format(\DateTimeInterface::ATOM);
 
         return $this;
     }
