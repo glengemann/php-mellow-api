@@ -11,6 +11,7 @@ class Login extends AbstractApi
 {
     public function login(
         string $user,
+        #[\SensitiveParameter]
         string $password,
         int $code = 0,
     ) {
