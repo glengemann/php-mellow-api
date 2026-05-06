@@ -12,6 +12,8 @@ use Psr\Http\Message\ResponseInterface;
 
 class RetryAuthenticationPlugin implements Plugin
 {
+    private bool $refreshInProgress = false;
+
     public function __construct(
         private readonly TokenStoreInterface $tokenStore,
         private readonly \Closure $tokenResolver,
@@ -24,24 +26,34 @@ class RetryAuthenticationPlugin implements Plugin
         callable $first,
     ): Promise {
         return $next($request)->then(
-            function (ResponseInterface $response) use ($request, $first): ResponseInterface {
+            function (ResponseInterface $response) use ($request, $next): ResponseInterface {
                 if (401 !== $response->getStatusCode()) {
                     return $response;
                 }
 
+                if (true === $this->refreshInProgress) {
+                    return $response;
+                }
+
+                $this->refreshInProgress = true;
+
                 $this->tokenStore->delete();
-                $token = ($this->tokenResolver)($request);
-                $request = $request->withHeader('Authorization', 'Bearer ' . $token);
+                try {
+                    $token = ($this->tokenResolver)($request);
+                    $request = $request->withHeader('Authorization', 'Bearer ' . $token);
 
-                return $first($request)->then(
-                    function (ResponseInterface $response): ResponseInterface {
-                        if (401 === $response->getStatusCode()) {
-                            throw new \Exception('RetryAuthenticationPlugin: Failed to refresh token');
+                    return $next($request)->then(
+                        function (ResponseInterface $response): ResponseInterface {
+                            if (401 === $response->getStatusCode()) {
+                                throw new \Exception('RetryAuthenticationPlugin: Failed to refresh token');
+                            }
+
+                            return $response;
                         }
-
-                        return $response;
-                    }
-                )->wait();
+                    )->wait();
+                } finally {
+                    $this->refreshInProgress = false;
+                }
             }
         );
     }
